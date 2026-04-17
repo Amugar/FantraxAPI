@@ -27,7 +27,7 @@ setup(
     author_email=fantraxapi.__email__,
     license=fantraxapi.__license__,
     packages=find_packages(),
-    python_requires=">=3.11",
+    python_requires=">=3.10",
     keywords=["fantraxapi", "fantrax", "fantasy", "wrapper", "api"],
     install_requires=["requests", "setuptools"],
     project_urls={
