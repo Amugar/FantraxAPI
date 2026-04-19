@@ -14,11 +14,17 @@ from __future__ import annotations
 import sys
 import os
 
-# Ensure the package directory is importable whether run from Pythonista
-# (where the script may be opened directly) or from the command line.
+# Put the repo root at the front of sys.path so the local fantraxapi
+# package is used even if an older version is installed in site-packages.
 _here = os.path.dirname(os.path.abspath(__file__))
 if _here not in sys.path:
     sys.path.insert(0, _here)
+
+# Evict any already-cached fantraxapi modules (e.g. from site-packages)
+# so the import below always picks up the local patched version.
+for _key in list(sys.modules.keys()):
+    if _key == "fantraxapi" or _key.startswith("fantraxapi."):
+        del sys.modules[_key]
 
 from requests import Session
 from fantraxapi import League
