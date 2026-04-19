@@ -1,8 +1,11 @@
-from typing import TYPE_CHECKING, Self
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from .base import FantraxBaseObject
 
 if TYPE_CHECKING:
+    from typing import Self
     from .league import League
 
 

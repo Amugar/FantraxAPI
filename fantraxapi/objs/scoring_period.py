@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import re
 from datetime import date, datetime, timedelta
 from decimal import Decimal
-from typing import TYPE_CHECKING, Self
+from typing import TYPE_CHECKING
 
 from fantraxapi import NotTeamInLeague
 
@@ -9,6 +11,7 @@ from .base import FantraxBaseObject
 from .team import Team
 
 if TYPE_CHECKING:
+    from typing import Self
     from .league import League
 
 

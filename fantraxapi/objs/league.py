@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import re
 from datetime import date, datetime
-from typing import ParamSpec
 
 from requests import Session
 
@@ -17,9 +18,6 @@ from .team import Team
 from .trade import Trade
 from .trade_block import TradeBlock
 from .transaction import Transaction
-
-Param = ParamSpec("Param")
-
 
 class League:
     """League Class to represent a Fantrax League.

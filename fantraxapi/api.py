@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from datetime import date
 from json.decoder import JSONDecodeError
-from typing import TYPE_CHECKING, ParamSpec
+from typing import TYPE_CHECKING
 
 from requests import Session
 
@@ -9,16 +11,13 @@ from fantraxapi.exceptions import NotLoggedIn, NotMemberOfLeague
 
 if TYPE_CHECKING:
     from fantraxapi.objs import League
-
-
-Param: ParamSpec = ParamSpec("Param")
 default_session: Session = Session()
 
 debug: bool = False
 
 
 class Method:
-    def __init__(self, name: str, **kwargs: Param.kwargs) -> None:
+    def __init__(self, name: str, **kwargs) -> None:
         self.name: str = name
         self.kwargs: dict = kwargs
         self.response: dict | None = None
@@ -61,15 +60,15 @@ def _request(league_id: str, methods: list[Method] | Method, session: Session | 
         raise FantraxException(f"({response.status_code} [{response.reason}]) {response_json}")
     if "pageError" in response_json:
         if "code" in response_json["pageError"]:
-            match response_json["pageError"]["code"]:
-                case "WARNING_NOT_LOGGED_IN":
-                    raise NotLoggedIn("Not Logged in")
-                case "NOT_MEMBER_OF_LEAGUE":
-                    raise NotMemberOfLeague("Not Member of League")
-                case "UNEXPECTED_ERROR":
-                    raise FantraxException(f"{response_json['pageError']['title']}")
-                case _:
-                    raise FantraxException(f"{response_json}")
+            code = response_json["pageError"]["code"]
+            if code == "WARNING_NOT_LOGGED_IN":
+                raise NotLoggedIn("Not Logged in")
+            elif code == "NOT_MEMBER_OF_LEAGUE":
+                raise NotMemberOfLeague("Not Member of League")
+            elif code == "UNEXPECTED_ERROR":
+                raise FantraxException(f"{response_json['pageError']['title']}")
+            else:
+                raise FantraxException(f"{response_json}")
 
     return response_json["responses"][0]["data"] if len(methods) == 1 else [r["data"] for r in response_json["responses"]]
 

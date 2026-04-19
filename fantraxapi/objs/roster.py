@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import date
 from typing import TYPE_CHECKING
 
@@ -59,11 +61,11 @@ class Roster(FantraxBaseObject):
 
                         for header, cell in zip(stats_header, stats_row["cells"]):
                             if "sortKey" in header:
-                                match header["sortKey"]:
-                                    case "SCORE":
-                                        stuff["total_fantasy_points"] = float(cell["content"])
-                                    case "FPTS_PER_GAME":
-                                        stuff["fantasy_points_per_game"] = float(cell["content"])
+                                sort_key = header["sortKey"]
+                                if sort_key == "SCORE":
+                                    stuff["total_fantasy_points"] = float(cell["content"])
+                                elif sort_key == "FPTS_PER_GAME":
+                                    stuff["fantasy_points_per_game"] = float(cell["content"])
                             if cell["content"] and "eventStr" in header and header["eventStr"]:
                                 stuff["game_today"] = cell
                 self.rows.append(RosterRow(self, stuff))

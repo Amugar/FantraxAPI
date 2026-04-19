@@ -45,15 +45,15 @@ class Player(FantraxBaseObject):
         self.suspended: bool = False
         if "icons" in self._data:
             for icon in self._data["icons"]:
-                match icon["typeId"]:
-                    case "1":
-                        self.day_to_day = True
-                    case "2":
-                        self.injured_reserve = True
-                    case "30":
-                        self.out = True
-                    case "6":
-                        self.suspended = True
+                type_id = icon["typeId"]
+                if type_id == "1":
+                    self.day_to_day = True
+                elif type_id == "2":
+                    self.injured_reserve = True
+                elif type_id == "30":
+                    self.out = True
+                elif type_id == "6":
+                    self.suspended = True
 
     @property
     def injured(self) -> bool:

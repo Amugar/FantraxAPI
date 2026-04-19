@@ -1,11 +1,14 @@
+from __future__ import annotations
+
 from datetime import date, datetime, time
-from typing import TYPE_CHECKING, Self
+from typing import TYPE_CHECKING
 
 from ..exceptions import DateNotInSeason
 from .base import FantraxBaseObject
 from .player import Player
 
 if TYPE_CHECKING:
+    from typing import Self
     from .league import League
 
 
